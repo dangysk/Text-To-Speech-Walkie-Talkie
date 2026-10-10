@@ -1,3 +1,3 @@
-task.wait(2)
+task.wait(5)
 
 require(script.Controllers.ChatToTextToSpeechController)
