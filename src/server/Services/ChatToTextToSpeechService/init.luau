@@ -11,7 +11,6 @@ local function AssignVoiceId(Player: Player)
 
 	if not AvailableVoices.MaleVoicesOnly then
 		IsPlayerFemale = GirlyCharacterDetector.IsGirly(Player.Character, 0.2)
-		print(GirlyCharacterDetector.IsGirly(Player.Character, 0.2))
 	end
 
 	local AppropriateVoices = IsPlayerFemale and AvailableVoices.GirlsVoices or AvailableVoices.MaleVoices
