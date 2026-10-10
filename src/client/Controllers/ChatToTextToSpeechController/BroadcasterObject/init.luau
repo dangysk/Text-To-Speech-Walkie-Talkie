@@ -109,9 +109,45 @@ local function GetTransmitterVoiceId(Transmitter: Player): string
 	return VoiceId
 end
 
+local function ConvertNumbersToWords(Text: string): string
+	local Ones = {
+		"zero", "one", "two", "three", "four", "five",
+		"six", "seven", "eight", "nine", "ten",
+		"eleven", "twelve", "thirteen", "fourteen",
+		"fifteen", "sixteen", "seventeen", "eighteen", "nineteen",
+	}
+
+	local Tens = {
+		[2] = "twenty", [3] = "thirty", [4] = "forty",
+		[5] = "fifty", [6] = "sixty", [7] = "seventy",
+		[8] = "eighty", [9] = "ninety",
+	}
+
+	local function Convert(Number: number): string
+		if Number < 20 then
+			return Ones[Number + 1]
+		elseif Number < 100 then
+			return Tens[math.floor(Number / 10)]
+				.. (Number % 10 ~= 0 and "-" .. Ones[Number % 10 + 1] or "")
+		elseif Number < 1000 then
+			return Ones[math.floor(Number / 100) + 1] .. " hundred"
+				.. (Number % 100 ~= 0 and " " .. Convert(Number % 100) or "")
+		elseif Number < 1000000 then
+			return Convert(math.floor(Number / 1000)) .. " thousand"
+				.. (Number % 1000 ~= 0 and " " .. Convert(Number % 1000) or "")
+		end
+
+		return tostring(Number)
+	end
+
+	return Text:gsub("%d+", function(Number)
+		return Convert(tonumber(Number))
+	end)
+end
+
 local function PlayTextToSpeech(AudioTextToSpeech: AudioTextToSpeech, Message: QueuedMessage)
 	AudioTextToSpeech.VoiceId = GetTransmitterVoiceId(Message.Transmitter)
-	AudioTextToSpeech.Text = Message.Text
+	AudioTextToSpeech.Text = ConvertNumbersToWords(Message.Text)
 
 	local LoadSucceeded, LoadStatus = pcall(function()
 		return AudioTextToSpeech:LoadAsync()
