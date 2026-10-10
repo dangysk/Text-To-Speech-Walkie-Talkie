@@ -29,9 +29,26 @@ local ForeignMaleVoices = {
 	"1001",
 }
 
+local ForeignFemaleVoices = {
+	"102",
+	"202",
+	"302",
+	"402",
+	"502",
+	"602",
+	"702",
+	"802",
+	"902",
+	"1002",
+}
+
 if ForeignVoicesEnabled == true then
 	for _, VoiceId in pairs(ForeignMaleVoices) do
 		table.insert(AvailableVoices.MaleVoices, VoiceId)
+	end
+
+	for _, VoiceId in pairs(ForeignFemaleVoices) do
+		table.insert(AvailableVoices.GirlsVoices, VoiceId)
 	end
 end
 

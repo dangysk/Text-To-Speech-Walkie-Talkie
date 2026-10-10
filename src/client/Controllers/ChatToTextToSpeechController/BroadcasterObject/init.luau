@@ -26,6 +26,10 @@ function BroadcasterObject.New()
 	return self
 end
 
+function BroadcasterObject:GetFrequency()
+	return self.Instance:GetAttribute("Frequency") or 0
+end
+
 function BroadcasterObject:AddAudioInstances()
 	local AudioEmitter = Instance.new("AudioEmitter")
 	AudioEmitter.DistanceAttenuationBounds = NumberRange.new(10, 120) -- Min and max range to hear reciever

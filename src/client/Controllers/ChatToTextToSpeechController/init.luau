@@ -28,11 +28,11 @@ local function IsSenderHoldingTransmitter(Transmitter: Player)
 		local EquippedTool = Character:FindFirstChildOfClass("Tool")
 
 		if EquippedTool and EquippedTool:HasTag("Transmitter") then
-			return true
+			return EquippedTool
 		end
 	end
 
-	return false
+	return nil
 end
 
 TextChatService.OnIncomingMessage = function(Message)
@@ -46,9 +46,15 @@ TextChatService.OnIncomingMessage = function(Message)
 
 	local Sender = Players:GetPlayerByUserId(Message.TextSource.UserId)
 
-	if Sender and IsSenderHoldingTransmitter(Sender) then
-		for _, Broadcaster in ipairs(Broadcasters) do
-			Broadcaster:Transmit(Message.Text, Sender)
+	if Sender then
+		local Transmitter = IsSenderHoldingTransmitter(Sender)
+
+		if Transmitter then
+			for _, Broadcaster in ipairs(Broadcasters) do
+				if Broadcaster:GetFrequency() == Transmitter:GetAttribute("Frequency") or 0 then
+					Broadcaster:Transmit(Message.Text, Sender)
+				end
+			end
 		end
 	end
 end
