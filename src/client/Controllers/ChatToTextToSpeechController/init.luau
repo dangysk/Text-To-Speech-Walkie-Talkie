@@ -51,7 +51,7 @@ TextChatService.OnIncomingMessage = function(Message)
 
 		if Transmitter then
 			for _, Broadcaster in ipairs(Broadcasters) do
-				if Broadcaster:GetFrequency() == Transmitter:GetAttribute("Frequency") or 0 then
+				if Broadcaster:GetFrequency() == (Transmitter:GetAttribute("Frequency") or 0) then
 					Broadcaster:Transmit(Message.Text, Sender)
 				end
 			end

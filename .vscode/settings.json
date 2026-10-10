@@ -2,5 +2,6 @@
   "github.copilot.enable": {
     "*": false
   },
-  "editor.inlineSuggest.enabled": false
+  "editor.inlineSuggest.enabled": false,
+  "stylua.targetReleaseVersion": "latest"
 }
